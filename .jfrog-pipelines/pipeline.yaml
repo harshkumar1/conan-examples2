@@ -1,0 +1,36 @@
+resources:
+  - name: src_repo_conan_examples2
+    type: GitRepo
+    configuration:
+      path: harshkumar1/conan-examples2
+      files:
+        include: /tutorial/consuming_packages/simple_cmake_project/*
+      gitProvider: hk_github
+      branches:
+        include: ^main$
+      cloneProtocol: https
+      buildOn:
+        commit: true
+
+pipelines:
+  - name: conan_c++_pipeline_example
+    steps:
+      - name: compile
+        type: Bash
+        configuration:
+          inputResources:
+            - name: src_repo_conan_examples2
+        execution:
+          onExecute:
+            - cd $res_src_repo_conan_examples2_resourcePath
+            - ls -l
+
+
+      - name: publish
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: compile
+        execution:
+          onExecute:
+            - echo "publish step"
