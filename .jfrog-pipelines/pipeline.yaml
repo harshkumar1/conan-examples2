@@ -13,7 +13,7 @@ resources:
         commit: true
 
 pipelines:
-  - name: demo_conan_c++_pipeline_example
+  - name: demo_conan_pipeline_example
     steps:
       - name: compile
         type: Bash
