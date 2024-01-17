@@ -22,6 +22,8 @@ pipelines:
   - name: demo_conan_pipeline_example
     configuration:
       jfrogCliVersion: '2'
+      integrations:
+        - name: hk_artifactory_1
     steps:
       - name: compile
         type: Bash
