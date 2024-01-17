@@ -53,3 +53,7 @@ pipelines:
             - ls -l
           onExecute:
             - echo "publish step"
+            - task: jfrog/setup-jfrog-cli@v0.1.0
+              input:
+                version: "2.26.1"    
+            - jf rt upload simple_cmake_project_build/compressor generic-repo-local/${run_number}/
