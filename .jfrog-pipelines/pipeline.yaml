@@ -21,6 +21,8 @@ pipelines:
           inputResources:
             - name: src_repo_conan_examples2
         execution:
+          onStart:
+            - pip install conan
           onExecute:
             - cd $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project
             - ls -l
