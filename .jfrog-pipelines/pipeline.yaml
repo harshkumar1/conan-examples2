@@ -50,6 +50,8 @@ pipelines:
             - cmake --build .
           onSuccess:
             - add_run_files $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project/build simple_cmake_project_build
+            - write_output demo_conan_pipeline_example_build_info buildName=demo_conan_pipeline_example buildNumber=${run_number}
+      
       - name: publish_artifacts
         type: Bash
         configuration:
@@ -62,6 +64,7 @@ pipelines:
           onExecute:
             - echo "publish step"  
             - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
+      
       - name: scan
         type: XrayScan
         configuration:
