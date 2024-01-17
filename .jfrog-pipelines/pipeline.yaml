@@ -27,7 +27,12 @@ pipelines:
             - cd $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project
             - ls -l
             - conan profile detect --force
-
+            - conan install . --output-folder=build --build=missing
+            - cd build
+            - cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+            - cmake --build .
+            - pwd
+            - ls -l
       - name: publish
         type: Bash
         configuration:
