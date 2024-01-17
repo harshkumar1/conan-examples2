@@ -52,4 +52,4 @@ pipelines:
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
           onExecute:
             - echo "publish step"  
-            - jf rt upload simple_cmake_project_build/compressor generic-repo-local/${run_number}/
+            - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
