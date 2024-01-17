@@ -50,21 +50,9 @@ pipelines:
             - cmake --build .
           onSuccess:
             - add_run_files $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project/build simple_cmake_project_build
-            - write_output demo_conan_pipeline_example_build_info buildName=demo_conan_pipeline_example buildNumber=${run_number}
-      
-      - name: publish_artifacts
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: publish_build_info
-        execution:
-          onStart:
-            - restore_run_files simple_cmake_project_build simple_cmake_project_build/
-          onExecute:
-            - echo "publish step"  
-            - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
+            #- write_output demo_conan_pipeline_example_build_info buildName=demo_conan_pipeline_example buildNumber=${run_number}
 
-      - name: publish_build_info
+      - name: publish
         type: PublishBuildInfo
         configuration:
           affinityGroup: conan_compile_scan
@@ -74,3 +62,8 @@ pipelines:
             - name: demo_conan_pipeline_example_build_info
           forceXrayScan: true
           failOnScan: true
+        execution:
+          onSuccess:
+            - echo "publishing artifact"  
+            - restore_run_files simple_cmake_project_build simple_cmake_project_build/
+            - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
