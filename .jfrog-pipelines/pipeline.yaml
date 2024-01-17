@@ -37,7 +37,6 @@ pipelines:
                 tag: '1'
           inputResources:
             - name: src_repo_conan_examples2
-          outputResources:
             - name: demo_conan_pipeline_example_build_info
         execution:
           onStart:
