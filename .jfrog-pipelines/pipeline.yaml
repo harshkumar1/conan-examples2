@@ -48,7 +48,7 @@ pipelines:
             - name: compile
         execution:
           onStart:
-            - restore_run_files simple_cmake_project_build .
+            - restore_run_files simple_cmake_project_build simple_cmake_project_build/
             - pwd
             - ls -l
           onExecute:
