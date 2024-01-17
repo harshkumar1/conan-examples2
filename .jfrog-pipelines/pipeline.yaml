@@ -73,6 +73,8 @@ pipelines:
         configuration:
           inputSteps:
             - name: compile
+          integrations:
+            - name: hk_artifactory_1
         execution:
           onExecute:
             - echo "publishing artifact"  
