@@ -18,6 +18,7 @@ pipelines:
       - name: compile
         type: Bash
         configuration:
+          jfrogCliVersion: '2'
           runtime:
             type: image
             image:
