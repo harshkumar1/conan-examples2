@@ -51,8 +51,5 @@ pipelines:
           onStart:
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
           onExecute:
-            - echo "publish step"
-            - task: jfrog/setup-jfrog-cli@v0.1.0
-              input:
-                version: "2.26.1"    
+            - echo "publish step"  
             - jf rt upload simple_cmake_project_build/compressor generic-repo-local/${run_number}/
