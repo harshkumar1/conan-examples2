@@ -28,6 +28,7 @@ pipelines:
       - name: compile
         type: Bash
         configuration:
+          affinityGroup: conan_compile_scan
           runtime:
             type: image
             image:
@@ -56,30 +57,21 @@ pipelines:
         type: Bash
         configuration:
           inputSteps:
-            - name: compile
-            - name: scan
+            - name: publish_build_info
         execution:
           onStart:
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
           onExecute:
             - echo "publish step"  
             - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
-      
-      - name: scan
-        type: XrayScan
-        configuration:
-          inputSteps:
-            - name: publish_build_info
-          inputResources:
-            - name: demo_conan_pipeline_example_build_info
-        execution:
-          onStart:
-            - echo "scan step"
-            
+
       - name: publish_build_info
         type: PublishBuildInfo
         configuration:
+          affinityGroup: conan_compile_scan
           inputSteps:
             - name: compile
           outputResources:
             - name: demo_conan_pipeline_example_build_info
+          forceXrayScan: true
+          failOnScan: true
