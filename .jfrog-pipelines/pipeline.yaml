@@ -39,11 +39,17 @@ pipelines:
             - cmake --build .
             - pwd
             - ls -l
+          onSuccess:
+            - add_run_files $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project/build simple_cmake_project_build
       - name: publish
         type: Bash
         configuration:
           inputSteps:
             - name: compile
         execution:
+          onStart:
+            - restore_run_files simple_cmake_project_build .
+            - pwd
+            - ls -l
           onExecute:
             - echo "publish step"
