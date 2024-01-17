@@ -46,6 +46,8 @@ pipelines:
         configuration:
           inputSteps:
             - name: compile
+          integrations:
+            - name: hk_artifactory_1
         execution:
           onStart:
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
