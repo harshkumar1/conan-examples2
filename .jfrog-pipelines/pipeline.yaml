@@ -4,7 +4,7 @@ resources:
     configuration:
       path: harshkumar1/conan-examples2
       files:
-        include: /tutorial/consuming_packages/simple_cmake_project/*
+        include: tutorial/consuming_packages/simple_cmake_project
       gitProvider: hk_github
       branches:
         include: ^main$
