@@ -11,6 +11,12 @@ resources:
       cloneProtocol: https
       buildOn:
         commit: true
+  - name: demo_conan_pipeline_example_build_info
+    type: BuildInfo
+    configuration:
+      sourceArtifactory: hk_artifactory_1
+      buildName: demo_conan_pipeline_example
+      buildNumber: ${run_number}
 
 pipelines:
   - name: demo_conan_pipeline_example
@@ -28,6 +34,8 @@ pipelines:
                 tag: '1'
           inputResources:
             - name: src_repo_conan_examples2
+          outputResources:
+            - name: demo_conan_pipeline_example_build_info
         execution:
           onStart:
             - pip install conan
@@ -45,11 +53,18 @@ pipelines:
         configuration:
           inputSteps:
             - name: compile
-          integrations:
-            - name: hk_artifactory_1
+            - name: scan
         execution:
           onStart:
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
           onExecute:
             - echo "publish step"  
             - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
+      - name: scan
+        type: Bash
+        configuration:
+          inputResources:
+            - name: demo_conan_pipeline_example_build_info
+        execution:
+          onExecute:
+            - echo "scan step"
