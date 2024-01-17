@@ -50,7 +50,7 @@ pipelines:
             - cmake --build .
           onSuccess:
             - add_run_files $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project/build simple_cmake_project_build
-      - name: publish
+      - name: publish_artifacts
         type: Bash
         configuration:
           inputSteps:
@@ -65,8 +65,18 @@ pipelines:
       - name: scan
         type: XrayScan
         configuration:
+          inputSteps:
+            - name: publish_build_info
           inputResources:
             - name: demo_conan_pipeline_example_build_info
         execution:
           onStart:
             - echo "scan step"
+            
+      - name: publish_build_info
+        type: PublishBuildInfo
+        configuration:
+          inputSteps:
+            - name: compile
+          outputResources:
+            - name: demo_conan_pipeline_example_build_info
