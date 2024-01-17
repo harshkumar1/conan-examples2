@@ -14,11 +14,12 @@ resources:
 
 pipelines:
   - name: demo_conan_pipeline_example
+    configuration:
+      jfrogCliVersion: '2'
     steps:
       - name: compile
         type: Bash
         configuration:
-          jfrogCliVersion: '2'
           runtime:
             type: image
             image:
