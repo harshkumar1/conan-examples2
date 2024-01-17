@@ -24,7 +24,12 @@ pipelines:
           onExecute:
             - cd $res_src_repo_conan_examples2_resourcePath
             - ls -l
-
+            - cd tutorial
+            - ls -l
+            - cd consuming_packages
+            - ls -l
+            - cd simple_cmake_project
+            - ls -l
 
       - name: publish
         type: Bash
