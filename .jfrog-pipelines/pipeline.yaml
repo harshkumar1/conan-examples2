@@ -63,10 +63,10 @@ pipelines:
             - echo "publish step"  
             - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
       - name: scan
-        type: Bash
+        type: XrayScan
         configuration:
           inputResources:
             - name: demo_conan_pipeline_example_build_info
         execution:
-          onExecute:
+          onStart:
             - echo "scan step"
