@@ -31,14 +31,11 @@ pipelines:
             - pip install conan
           onExecute:
             - cd $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project
-            - ls -l
             - conan profile detect --force
             - conan install . --output-folder=build --build=missing
             - cd build
             - cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
             - cmake --build .
-            - pwd
-            - ls -l
           onSuccess:
             - add_run_files $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project/build simple_cmake_project_build
       - name: publish
@@ -51,8 +48,6 @@ pipelines:
         execution:
           onStart:
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
-            - pwd
-            - ls -l
           onExecute:
             - echo "publish step"
             - task: jfrog/setup-jfrog-cli@v0.1.0
