@@ -22,14 +22,9 @@ pipelines:
             - name: src_repo_conan_examples2
         execution:
           onExecute:
-            - cd $res_src_repo_conan_examples2_resourcePath
+            - cd $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project
             - ls -l
-            - cd tutorial
-            - ls -l
-            - cd consuming_packages
-            - ls -l
-            - cd simple_cmake_project
-            - ls -l
+            - conan profile detect --force
 
       - name: publish
         type: Bash
