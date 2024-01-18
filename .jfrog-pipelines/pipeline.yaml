@@ -43,12 +43,10 @@ pipelines:
         execution:
           onStart:
             - pip install conan
+            - conan remote remove conancenter
           onExecute:
             - cd $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project
             - conan remote add conan-remote https://pipelines.jfrog.io/artifactory/api/conan/conan-remote
-            - conan remote list
-            - conan remote remove conancenter
-            - conan remote list
             - conan profile detect --force
             - conan install . --output-folder=build --build=missing
             - cd build
@@ -56,22 +54,6 @@ pipelines:
             - cmake --build .
           onSuccess:
             - add_run_files $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project/build simple_cmake_project_build
-            #- write_output demo_conan_pipeline_example_build_info buildName=demo_conan_pipeline_example buildNumber=${run_number}
-
-      # - name: scan
-      #   type: XrayScan
-      #   configuration:
-      #     inputResources:
-      #       - name: demo_conan_pipeline_example_build_info
-      
-      # - name: publish_build_info
-      #   type: PublishBuildInfo
-      #   configuration:
-      #     inputSteps:
-      #       - name: compile
-      #     affinityGroup: conan_compile_publish
-      #     outputResources:
-      #       - name: demo_conan_pipeline_example_build_info
 
       - name: publish_artifacts
         type: Bash
@@ -85,11 +67,3 @@ pipelines:
             - echo "publishing artifact"  
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
             - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
-            # - task: jfrog/build-publish@v0.0.1
-            #   id: build-publish
-            #   input:
-            #     resourceName: "demo_conan_pipeline_example_build_info" # input resource name which need a build publish
-            #     xrayScan: "false"
-            #     failOnScan: "false"
-            #     publishBuildInfo: "true"
-            #     retry: "true"
