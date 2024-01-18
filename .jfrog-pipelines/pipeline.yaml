@@ -24,6 +24,7 @@ pipelines:
       jfrogCliVersion: '2'
       integrations:
         - name: hk_artifactory_1
+        - name: conan_creds
     steps:
       - name: compile
         type: Bash
@@ -44,6 +45,8 @@ pipelines:
             - pip install conan
           onExecute:
             - cd $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project
+            - conan user -p ${int_conan_creds_APIKEY} -r conan-remote ${int_conan_creds_USER}
+            - conan remote add conan-remote https://pipelines.jfrog.io/artifactory/api/conan/conan
             - conan profile detect --force
             - conan install . --output-folder=build --build=missing
             - cd build
@@ -80,11 +83,11 @@ pipelines:
             - echo "publishing artifact"  
             - restore_run_files simple_cmake_project_build simple_cmake_project_build/
             - jf rt upload --flat=true simple_cmake_project_build/compressor generic-repo-local/simple_cmake_project_build/${run_number}/
-            - task: jfrog/build-publish@v0.0.1
-              id: build-publish
-              input:
-                resourceName: "demo_conan_pipeline_example_build_info" # input resource name which need a build publish
-                xrayScan: "false"
-                failOnScan: "false"
-                publishBuildInfo: "true"
-                retry: "true"
+            # - task: jfrog/build-publish@v0.0.1
+            #   id: build-publish
+            #   input:
+            #     resourceName: "demo_conan_pipeline_example_build_info" # input resource name which need a build publish
+            #     xrayScan: "false"
+            #     failOnScan: "false"
+            #     publishBuildInfo: "true"
+            #     retry: "true"
