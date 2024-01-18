@@ -48,7 +48,7 @@ pipelines:
             - conan remote add conan-remote https://pipelines.jfrog.io/artifactory/api/conan/conan-remote
             - conan remote list
             - conan remote remove conancenter
-            #- conan user -r conan-remote -p ${int_conan_creds_APIKEY} ${int_conan_creds_USER}
+            - conan remote list
             - conan profile detect --force
             - conan install . --output-folder=build --build=missing
             - cd build
