@@ -45,9 +45,8 @@ pipelines:
             - pip install conan
           onExecute:
             - cd $res_src_repo_conan_examples2_resourcePath/tutorial/consuming_packages/simple_cmake_project
-            - conan remote add conan-remote https://pipelines.jfrog.io/artifactory/api/conan/conan
+            - conan remote add conan-remote https://pipelines.jfrog.io/artifactory/api/conan/conan-remote
             #- conan user -r conan-remote -p ${int_conan_creds_APIKEY} ${int_conan_creds_USER}
-            - conan remote auth conan-remote
             - conan profile detect --force
             - conan install . --output-folder=build --build=missing
             - cd build
